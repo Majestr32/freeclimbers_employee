@@ -1,5 +1,4 @@
 import 'package:freeclimbers_employee/blocs/contact_us_bloc/contact_us_bloc.dart';
-import 'package:freeclimbers_employee/blocs/member_cubit/member_cubit.dart';
 import 'package:freeclimbers_employee/extensions/colors.dart';
 import 'package:freeclimbers_employee/repositories/contact_us/contact_us_repository.dart';
 import 'package:freeclimbers_employee/services/contact_us/contact_us_service_impl.dart';
@@ -86,8 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     final subject = _subjectController.text;
                     final message = _messageController.text;
                     if(subject.isNotEmpty && message.isNotEmpty){
-                      context.loaderOverlay.show();
-                      contactUsBloc.add(ContactUsEvent.sendEmail(email: context.read<MemberCubit>().state.memberData!.email!, subject: subject, message: message));
+                      //context.loaderOverlay.show();
                     }else{
                       if(subject.isEmpty){
                         _errorTags.add("subject");

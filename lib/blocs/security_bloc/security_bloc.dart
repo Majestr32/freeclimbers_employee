@@ -2,7 +2,6 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:freeclimbers_employee/blocs/member_cubit/member_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:local_auth/local_auth.dart';
@@ -20,13 +19,10 @@ typedef AuthenticateFunction = Future<bool> Function();
 
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   final SecurityRepository _securityRepository;
-  final MemberCubit _memberCubit;
   final OneSignal _oneSignal;
   SecurityBloc({required SecurityRepository securityRepository,
-    required MemberCubit memberCubit,
     required OneSignal oneSignal})
       : _securityRepository = securityRepository,
-        _memberCubit = memberCubit,
         _oneSignal = oneSignal,
         super(const SecurityState.initial()) {
     on<SecurityEvent>((event,emit) async{
@@ -71,17 +67,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     final lockTimeout = _securityRepository.getLockTimeout();
     final isLocked = event.firstLaunch ? true : _securityRepository.isLockedWithFaceId();
     final biometricType = await _securityRepository.getDefaultBiometricType();
-    if(pushMessages){
-      _maybeUpdateExternalUserId();
-    }
     emit(SecurityState.initialized(loginWithFaceId: loginWithFaceId, timeout: lockTimeout, pushMessages: pushMessages, isLocked: isLocked, biometricType: biometricType));
-  }
-
-  Future<void> _maybeUpdateExternalUserId() async{
-    if(_memberCubit.state.memberData == null){
-      return;
-    }
-    await _oneSignal.setExternalUserId(_memberCubit.state.memberData!.id!);
   }
 
   Future _togglePushMessages(_TogglePushMessagesEvent event, Emitter<SecurityState> emit) async{
@@ -94,9 +80,6 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       event.complete(accepted ? event.notification : null);
     });
     await _oneSignal.disablePush(!accepted);
-    if(toggledOn){
-      _maybeUpdateExternalUserId();
-    }
     _securityRepository.setPushMessages(toggledOn);
     emit(state.togglePushMessages(toggledOn));
   }

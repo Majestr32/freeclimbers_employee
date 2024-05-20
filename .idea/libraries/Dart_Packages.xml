@@ -271,7 +271,7 @@
         <entry key="device_display_brightness">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/device_display_brightness-0.0.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/git/device_display_brightness-ce42403c0489f33254a6e93b9207db0e4b2c35f9//lib" />
             </list>
           </value>
         </entry>
@@ -1321,6 +1321,7 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/git/device_display_brightness-ce42403c0489f33254a6e93b9207db0e4b2c35f9//lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/flutter_adaptive_action_sheet-8b0d013e339a584c09d910600c4319a158d5517d//lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/flutter_slidable_with_slide_callback-cb89b09094b7593267786a4c7bfd3f956b10bf44//lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/flutter_wallet-766d612d6ade459683f594e45dc8d07734d068b0//lib" />
@@ -1361,7 +1362,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dart_pubspec_licenses-2.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dart_style-2.3.6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dbus-0.7.10/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/device_display_brightness-0.0.6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dio-4.0.6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dotted_border-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/ed25519_edwards-0.3.1/lib" />

@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import '../../../blocs/member_cubit/member_cubit.dart';
 import '../../../utils/toasts.dart';
 import '../../widgets/buttons/app_outlined_button.dart';
 
@@ -37,80 +36,59 @@ class _ResetPasswordState extends State<ResetPassword> {
     return CupertinoPageScaffold(
         backgroundColor: context.colors!.basePrimaryBack,
         child: ConnectivityBadge(
-          child: BlocListener<MemberCubit,MemberState>(
-            listener: (context,state){
-              if(state.status == MemberStateStatus.error){
-                if(state.error!.localizationCode == 'timeout'){
-                  return;
-                }
-                context.loaderOverlay.hide();
-                setState((){
-                  _errorTag = 'password_reset';
-                });
-                Future.delayed(Duration(milliseconds: 100)).then((_){
-                  _formKey.currentState!.validate();
-                });
-              }else if(state.status == MemberStateStatus.sentEmail){
-                context.loaderOverlay.hide();
-                AppToast.instance.showSuccess(context, AppLocalizations.of(context)!.verification_sent);
-                context.pop();
-              }
-            },
-            child: Form(
-              key: _formKey,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Spacer(flex: 2,),
-                      Image.asset('assets/images/logo.png', width: 100, height: 100,),
-                      const SizedBox(height: 20,),
-                      Text(AppLocalizations.of(context)!.reset_password, style: TextStyle(color: context.colors!.fieldNormalText, fontSize: 32, fontWeight: FontWeight.w700),),
-                      const SizedBox(height: 24,),
-                      Text(AppLocalizations.of(context)!.reset_password_hint, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.colors!.fieldNormalText),),
-                      const SizedBox(height: 24),
-                      AppPlanTextField(title: AppLocalizations.of(context)!.email,
-                        whiteTitle: false,
-                        currentTags: [_errorTag],
-                        prefixWidget: Icon(FontAwesomeIcons.solidEnvelope, color: context.colors!.fieldNormalText, size: 20,),
-                        mandatority: 0,
-                        textCapitalization: TextCapitalization.none,
-                        tagForError: 'password_reset',
-                        controller: _emailController, validator: AppValidators.email,),
-                      SizedBox(height: 32,),
-                      AppElevatedButton(
-                        title: AppLocalizations.of(context)!.reset_password, onPressed: (){
-                          _errorTag = '';
-                          if(_emailController.text.trim().isEmpty){
-                            setState((){
-                              _errorTag = 'password_reset';
-                            });
-                            Future.delayed(Duration(milliseconds: 100)).then((_){
-                              _formKey.currentState!.validate();
-                            });
-                            AppToast.instance.showError(context, AppLocalizations.of(context)!.reset_password_empty_error);
-                            return;
-                          }else if(AppValidators.email(_emailController.text) != null){
-                            setState((){
-                              _errorTag = 'password_reset';
-                            });
-                            Future.delayed(Duration(milliseconds: 100)).then((_){
-                              _formKey.currentState!.validate();
-                            });
-                            AppToast.instance.showError(context, AppLocalizations.of(context)!.reset_password_email_not_valid_error);
-                            return;
-                          }
-                          context.loaderOverlay.show();
-                          context.read<MemberCubit>().resetPassword(email: _emailController.text);
-                      }),
-                      const SizedBox(height: 32,),
-                      AppOutlinedButton(title: AppLocalizations.of(context)!.back, onPressed: () => context.pop()),
-                      const Spacer(flex: 2,)
-                    ],
-                  ),
+          child: Form(
+            key: _formKey,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Spacer(flex: 2,),
+                    Image.asset('assets/images/logo.png', width: 100, height: 100,),
+                    const SizedBox(height: 20,),
+                    Text(AppLocalizations.of(context)!.reset_password, style: TextStyle(color: context.colors!.fieldNormalText, fontSize: 32, fontWeight: FontWeight.w700),),
+                    const SizedBox(height: 24,),
+                    Text(AppLocalizations.of(context)!.reset_password_hint, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: context.colors!.fieldNormalText),),
+                    const SizedBox(height: 24),
+                    AppPlanTextField(title: AppLocalizations.of(context)!.email,
+                      whiteTitle: false,
+                      currentTags: [_errorTag],
+                      prefixWidget: Icon(FontAwesomeIcons.solidEnvelope, color: context.colors!.fieldNormalText, size: 20,),
+                      mandatority: 0,
+                      textCapitalization: TextCapitalization.none,
+                      tagForError: 'password_reset',
+                      controller: _emailController, validator: AppValidators.email,),
+                    SizedBox(height: 32,),
+                    AppElevatedButton(
+                      title: AppLocalizations.of(context)!.reset_password, onPressed: (){
+                        _errorTag = '';
+                        if(_emailController.text.trim().isEmpty){
+                          setState((){
+                            _errorTag = 'password_reset';
+                          });
+                          Future.delayed(Duration(milliseconds: 100)).then((_){
+                            _formKey.currentState!.validate();
+                          });
+                          AppToast.instance.showError(context, AppLocalizations.of(context)!.reset_password_empty_error);
+                          return;
+                        }else if(AppValidators.email(_emailController.text) != null){
+                          setState((){
+                            _errorTag = 'password_reset';
+                          });
+                          Future.delayed(Duration(milliseconds: 100)).then((_){
+                            _formKey.currentState!.validate();
+                          });
+                          AppToast.instance.showError(context, AppLocalizations.of(context)!.reset_password_email_not_valid_error);
+                          return;
+                        }
+                        //context.loaderOverlay.show();
+                    }),
+                    const SizedBox(height: 32,),
+                    AppOutlinedButton(title: AppLocalizations.of(context)!.back, onPressed: () => context.pop()),
+                    const Spacer(flex: 2,)
+                  ],
                 ),
               ),
             ),
