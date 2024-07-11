@@ -1,6 +1,6 @@
 
-import 'package:freeclimbers_employee/consts/k_colors.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
+import 'package:climbers/consts/k_colors.dart';
+import 'package:climbers/extensions/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';

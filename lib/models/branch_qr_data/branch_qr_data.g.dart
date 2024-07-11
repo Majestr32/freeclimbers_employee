@@ -6,15 +6,15 @@ part of 'branch_qr_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BranchQrData _$$_BranchQrDataFromJson(Map<String, dynamic> json) =>
-    _$_BranchQrData(
+_$BranchQrDataImpl _$$BranchQrDataImplFromJson(Map<String, dynamic> json) =>
+    _$BranchQrDataImpl(
       id: json['id'] as String,
       no: json['no'] as String,
       company: json['company'] as String,
       logoStr: json['logo'] as String,
     );
 
-Map<String, dynamic> _$$_BranchQrDataToJson(_$_BranchQrData instance) =>
+Map<String, dynamic> _$$BranchQrDataImplToJson(_$BranchQrDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'no': instance.no,

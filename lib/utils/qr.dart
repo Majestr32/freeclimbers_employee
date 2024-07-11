@@ -1,5 +1,5 @@
 
-import 'package:freeclimbers_employee/consts/k_colors.dart';
+import 'package:climbers/consts/k_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qr/qr.dart';
 

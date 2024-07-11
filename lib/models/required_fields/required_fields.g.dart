@@ -6,30 +6,31 @@ part of 'required_fields.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RequiredFields _$$_RequiredFieldsFromJson(Map<String, dynamic> json) =>
-    _$_RequiredFields(
-      company: json['company'] as int,
-      salutationId: json['salutation_id'] as int,
-      title: json['title'] as int,
-      firstname: json['firstname'] as int,
-      lastname: json['lastname'] as int,
-      street: json['street'] as int,
-      postcode: json['postcode'] as int,
-      city: json['city'] as int,
-      countryId: json['country_id'] as int,
-      email: json['email'] as int,
-      phone: json['phone'] as int,
-      birthday: json['birthday'] as int,
-      memberNo: json['member_no'] as int,
-      username: json['username'] as int,
-      password: json['password'] as int,
-      categoryId: json['category_id'] as int,
-      languageCode: json['language_code'] as int,
-      acceptApsTerms: json['accept_aps_terms'] as int,
-      acceptBranchTerms: json['accept_branch_terms'] as int,
+_$RequiredFieldsImpl _$$RequiredFieldsImplFromJson(Map<String, dynamic> json) =>
+    _$RequiredFieldsImpl(
+      company: (json['company'] as num).toInt(),
+      salutationId: (json['salutation_id'] as num).toInt(),
+      title: (json['title'] as num).toInt(),
+      firstname: (json['firstname'] as num).toInt(),
+      lastname: (json['lastname'] as num).toInt(),
+      street: (json['street'] as num).toInt(),
+      postcode: (json['postcode'] as num).toInt(),
+      city: (json['city'] as num).toInt(),
+      countryId: (json['country_id'] as num).toInt(),
+      email: (json['email'] as num).toInt(),
+      phone: (json['phone'] as num).toInt(),
+      birthday: (json['birthday'] as num).toInt(),
+      memberNo: (json['member_no'] as num).toInt(),
+      username: (json['username'] as num).toInt(),
+      password: (json['password'] as num).toInt(),
+      categoryId: (json['category_id'] as num).toInt(),
+      languageCode: (json['language_code'] as num).toInt(),
+      acceptApsTerms: (json['accept_aps_terms'] as num).toInt(),
+      acceptBranchTerms: (json['accept_branch_terms'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$_RequiredFieldsToJson(_$_RequiredFields instance) =>
+Map<String, dynamic> _$$RequiredFieldsImplToJson(
+        _$RequiredFieldsImpl instance) =>
     <String, dynamic>{
       'company': instance.company,
       'salutation_id': instance.salutationId,

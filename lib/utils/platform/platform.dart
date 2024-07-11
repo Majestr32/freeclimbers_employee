@@ -1,7 +1,7 @@
 import 'package:universal_io/io.dart';
 
-import 'package:freeclimbers_employee/utils/platform/android.dart';
-import 'package:freeclimbers_employee/utils/platform/ios.dart';
+import 'package:climbers/utils/platform/android.dart';
+import 'package:climbers/utils/platform/ios.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

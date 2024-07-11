@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/services/qr_code/qr_code_service_contract.dart';
+import 'package:climbers/services/qr_code/qr_code_service_contract.dart';
 
 import '../../models/branch_qr_data/branch_qr_data.dart';
 

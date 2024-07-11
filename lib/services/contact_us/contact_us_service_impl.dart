@@ -1,6 +1,6 @@
-import 'package:freeclimbers_employee/custom_error.dart';
-import 'package:freeclimbers_employee/services/contact_us/contact_us_service_contract.dart';
-import 'package:freeclimbers_employee/utils/dio.dart';
+import 'package:climbers/custom_error.dart';
+import 'package:climbers/services/contact_us/contact_us_service_contract.dart';
+import 'package:climbers/utils/dio.dart';
 import 'package:dio/dio.dart';
 
 class ContactUsServiceImpl implements ContactUsService{

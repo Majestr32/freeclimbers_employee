@@ -3,17 +3,17 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:freeclimbers_employee/blocs/connectivity_bloc/connectivity_bloc.dart';
-import 'package:freeclimbers_employee/blocs/locale_cubit/locale_cubit.dart';
-import 'package:freeclimbers_employee/custom_error.dart';
-import 'package:freeclimbers_employee/utils/jwt.dart';
+import 'package:climbers/blocs/connectivity_bloc/connectivity_bloc.dart';
+import 'package:climbers/blocs/locale_cubit/locale_cubit.dart';
+import 'package:climbers/custom_error.dart';
+import 'package:climbers/utils/jwt.dart';
 import 'package:dio/dio.dart';
 import 'package:http_interceptor/models/interceptor_contract.dart';
 
- String insertLocale(String baseUrl, String locale) => baseUrl.replaceFirst("::language::", locale);
+String insertLocale(String baseUrl, String locale) => baseUrl.replaceFirst("::language::", locale);
 
- ///Doesn't contain locale, use [insertLocale] to insert locale before making API call
- String apiHost = "https://api.freeclimber.app/::language::/customer/v1";
+///Doesn't contain locale, use [insertLocale] to insert locale before making API call
+String apiHost = "https://api.freeclimber.app/::language::/customer/v1";
 
 dynamic throwCustomErrorOrGetData(Response response){
   int code = response.data["code"];
@@ -47,8 +47,8 @@ class NoInternetInterceptor extends Interceptor{
           active: (_) => true,
           orElse: () => false);
       if(!connected){
-        options.connectTimeout = 0;
-        options.receiveTimeout = 0;
+        options.connectTimeout = Duration.zero;
+        options.receiveTimeout = Duration.zero;
       }
       super.onRequest(options, handler);
     }
@@ -63,14 +63,14 @@ class TimeoutInterceptor extends Interceptor{
   final VoidCallback onTimeoutError;
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.connectTimeout = 6000;
-    options.receiveTimeout = 6000;
+    options.connectTimeout = Duration(milliseconds: 6000);
+    options.receiveTimeout = Duration(milliseconds: 6000);
     super.onRequest(options, handler);
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.type == DioErrorType.connectTimeout || err.type == DioErrorType.receiveTimeout || err.type == DioErrorType.sendTimeout || err.type == DioErrorType.other) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.type == DioExceptionType.connectionTimeout || err.type == DioExceptionType.receiveTimeout || err.type == DioErrorType.sendTimeout || err.type == DioExceptionType.unknown) {
       onTimeoutError.call();
       throw TimeoutException('Timeout');
     }

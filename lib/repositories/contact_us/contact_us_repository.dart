@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/services/contact_us/contact_us_service_contract.dart';
+import 'package:climbers/services/contact_us/contact_us_service_contract.dart';
 
 class ContactUsRepository{
   final ContactUsService _contactUsService;

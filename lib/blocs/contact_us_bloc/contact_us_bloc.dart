@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:freeclimbers_employee/custom_error.dart';
+import 'package:climbers/custom_error.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../repositories/contact_us/contact_us_repository.dart';

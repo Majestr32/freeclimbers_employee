@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:freeclimbers_employee/extensions/colors.dart';
+import 'package:climbers/extensions/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

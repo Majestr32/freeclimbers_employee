@@ -4,14 +4,14 @@ import 'dart:developer';
 import 'package:universal_io/io.dart';
 import 'dart:typed_data';
 
-import 'package:freeclimbers_employee/consts/api.dart';
-import 'package:freeclimbers_employee/custom_error.dart';
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/models/member_data/member_data.dart';
-import 'package:freeclimbers_employee/models/member_registration_code/member_registration_code.dart';
-import 'package:freeclimbers_employee/services/member/member_service_contract.dart';
-import 'package:freeclimbers_employee/utils/dio.dart';
-import 'package:freeclimbers_employee/utils/errors.dart';
+import 'package:climbers/consts/api.dart';
+import 'package:climbers/custom_error.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/models/member_data/member_data.dart';
+import 'package:climbers/models/member_registration_code/member_registration_code.dart';
+import 'package:climbers/services/member/member_service_contract.dart';
+import 'package:climbers/utils/dio.dart';
+import 'package:climbers/utils/errors.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart';
@@ -50,41 +50,41 @@ class MemberService implements IMemberService{
       final response = await _dio.post("$apiHost/member/register",
           queryParameters: {"branch_id": branchId},
           data: {
-        'company': company,
-        'salutation_id': salutationId,
-        'title': title,
-        'firstname': firstname,
-        'lastname': lastname,
-        'street': street,
-        'postcode': postcode,
-        'city': city,
-        'country_id': countryId,
-        'email': email,
-        'phone': phone,
-        'birthday': birthday,
-        'member_no': memberNo,
-        'username': username,
-        'password': password,
-        'password_repeat': passwordRepeat,
-        'category_id': categoryId,
-        'language_code': languageCode,
-        'newsletter': newsLetter == null ? null : newsLetter ? 1 : 0,
-        'accept_aps_terms': acceptApsTerms == null ? null : acceptApsTerms ? 1 : 0,
-        'accept_branch_terms': acceptBranchTerms == null ? null : acceptBranchTerms ? 1 : 0,
-      }..removeWhere((key, value) => value == null));
+            'company': company,
+            'salutation_id': salutationId,
+            'title': title,
+            'firstname': firstname,
+            'lastname': lastname,
+            'street': street,
+            'postcode': postcode,
+            'city': city,
+            'country_id': countryId,
+            'email': email,
+            'phone': phone,
+            'birthday': birthday,
+            'member_no': memberNo,
+            'username': username,
+            'password': password,
+            'password_repeat': passwordRepeat,
+            'category_id': categoryId,
+            'language_code': languageCode,
+            'newsletter': newsLetter == null ? null : newsLetter ? 1 : 0,
+            'accept_aps_terms': acceptApsTerms == null ? null : acceptApsTerms ? 1 : 0,
+            'accept_branch_terms': acceptBranchTerms == null ? null : acceptBranchTerms ? 1 : 0,
+          }..removeWhere((key, value) => value == null));
 
       final data = throwCustomErrorOrGetData(response);
       if(data['validate'] == false){
         throw CustomError(code: 200, targets: (data["errors"] as Map<String,dynamic>).keys.toList(), message: ((data["errors"] as Map<String,dynamic>).values.first as List).first);
       }
-      
+
       if((data as Map<String,dynamic>).containsKey("code")){
         return data["code"] as String;
       }else{
         return null;
       }
-    }on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    }on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -102,8 +102,8 @@ class MemberService implements IMemberService{
       if(response.data['code'] == 400){
         throw CustomError(code: 400, message: response.data['message'], targets: ['email']);
       }
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -121,13 +121,15 @@ class MemberService implements IMemberService{
         ...authorizationSecrets
       });
       return AccessToken.fromJson(response.data);
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
       }else if(e.response!.statusCode == 401){
         throw CustomError(code: 401, message: e.response!.data['error_description']);
+      }else if(e.response!.statusCode == 400){
+        throw CustomError(code: 400, message: e.response!.data['error_description']);
       }
       rethrow;
     }
@@ -143,8 +145,8 @@ class MemberService implements IMemberService{
         ...authorizationSecrets
       });
       return AccessToken.fromJson(response.data);
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -163,8 +165,8 @@ class MemberService implements IMemberService{
         throw const CustomError(code: 401, message: 'Session expired', localizationCode: 'session-expired');
       }
       return MemberData.fromJson(response.data["data"]);
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throw const CustomError(code: 400, message: 'Timeout', localizationCode: 'timeout');
@@ -182,8 +184,8 @@ class MemberService implements IMemberService{
       }else{
         return response.data["data"];
       }
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -203,8 +205,8 @@ class MemberService implements IMemberService{
       });
       final response = await _authenticatedDio(token, contentType: 'multipart/form-data').post("$apiHost/member/updatePhoto", data: formData);
       log(response.data.toString());
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -237,8 +239,8 @@ class MemberService implements IMemberService{
       if(data['validate'] == false){
         throw CustomError(code: 200, targets: (data["errors"] as Map<String,dynamic>).keys.toList(), message: ((data["errors"] as Map<String,dynamic>).values.first as List).first);
       }
-    }on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    }on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -251,8 +253,8 @@ class MemberService implements IMemberService{
   Future<void> removeLogo({required AccessToken token}) async{
     try{
       await _authenticatedDio(token).post("$apiHost/member/removePhoto");
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -274,8 +276,8 @@ class MemberService implements IMemberService{
         ((response.data["data"]["errors"] as Map<String,dynamic>).values.first as List).first : (response.data["data"]["errors"] as Map<String,dynamic>).values.first as String;
         throw CustomError(code: 200, targets: (response.data["data"]["errors"] as Map<String,dynamic>).keys.toList(), message: message);
       }
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -291,11 +293,11 @@ class MemberService implements IMemberService{
     final dir = await Directory(appDir.path+'/'+'passes').create(recursive: true);
     final file = await File('${dir.path}/ca.pkpass').create(recursive: true);
     final response = await _authenticatedDio(token, responseType: ResponseType.bytes).post("$apiHost/member/getWalletPass",
-    queryParameters: {
-      'type' : 'apple'
-    }, data: {
-      'branch_id' : branchId
-    });
+        queryParameters: {
+          'type' : 'apple'
+        }, data: {
+          'branch_id' : branchId
+        });
     file.writeAsBytesSync(response.data);
     return file;
   }
@@ -305,8 +307,8 @@ class MemberService implements IMemberService{
     try{
       final response = await _authenticatedDio(token).get("$apiHost/member/getMemberRegCode");
       return MemberRegistrationCode.fromJson(response.data["data"]);
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();

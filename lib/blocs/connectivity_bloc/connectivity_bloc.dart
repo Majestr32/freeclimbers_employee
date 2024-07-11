@@ -22,8 +22,8 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
     connectionChecker.checkConnectivity().then((connectivity) => _checkConnectivity(connectivity));
   }
 
-  Future<void> _checkConnectivity(ConnectivityResult connectivity) async{
-    if(connectivity != ConnectivityResult.none){
+  Future<void> _checkConnectivity(List<ConnectivityResult> connectivity) async{
+    if(!connectivity.contains(ConnectivityResult.none)){
       add(ConnectivityEvent.connect());
     }else{
       add(ConnectivityEvent.disconnect());

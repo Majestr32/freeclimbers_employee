@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:freeclimbers_employee/models/app_settings/app_settings.dart';
-import 'package:freeclimbers_employee/utils/jwt.dart';
-import 'package:cupertino_http/cupertino_client.dart';
+import 'package:climbers/models/app_settings/app_settings.dart';
+import 'package:climbers/utils/jwt.dart';
 import 'package:http/http.dart';
 
 import '../../models/app_documents/app_documents.dart';
@@ -25,7 +24,7 @@ class ClipAppService implements IAppService {
     }
     final url = Uri.parse(path);
     final response =
-        await client.get(url, headers: {"Authorization": "Bearer $token"});
+    await client.get(url, headers: {"Authorization": "Bearer $token"});
     final data = response.body;
     if(data.isEmpty){
       return null;
@@ -43,7 +42,7 @@ class ClipAppService implements IAppService {
     }
     final url = Uri.parse(path);
     final response =
-        await client.get(url, headers: {"Authorization": "Bearer $token"});
+    await client.get(url, headers: {"Authorization": "Bearer $token"});
     return AppSettings.fromJson(jsonDecode(response.body)["data"]);
   }
 
@@ -52,7 +51,7 @@ class ClipAppService implements IAppService {
     String token = generateJwt();
 
     final response = await client.get(Uri.parse("$apiHost/app/getLegalTexts${branchId == null ? "" : "?branch_id=$branchId"}"),
-    headers: {"Authorization": "Bearer $token"});
+        headers: {"Authorization": "Bearer $token"});
     final data = jsonDecode(response.body)["data"];
 
     return AppDocuments.fromJson(data);

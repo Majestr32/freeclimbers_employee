@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:freeclimbers_employee/consts/k_colors.dart';
+import 'package:climbers/consts/k_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

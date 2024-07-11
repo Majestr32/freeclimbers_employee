@@ -6,7 +6,7 @@ part of 'branch.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Branch _$$_BranchFromJson(Map<String, dynamic> json) => _$_Branch(
+_$BranchImpl _$$BranchImplFromJson(Map<String, dynamic> json) => _$BranchImpl(
       id: json['id'] as String,
       memberId: json['member_id'] as String,
       branchId: json['branch_id'] as String,
@@ -14,7 +14,8 @@ _$_Branch _$$_BranchFromJson(Map<String, dynamic> json) => _$_Branch(
       details: BranchDetails.fromJson(json['branch'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_BranchToJson(_$_Branch instance) => <String, dynamic>{
+Map<String, dynamic> _$$BranchImplToJson(_$BranchImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'member_id': instance.memberId,
       'branch_id': instance.branchId,

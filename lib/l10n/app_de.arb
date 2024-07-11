@@ -152,6 +152,7 @@
     "branch_sheet_empty_title": "Du bist noch mit keinem Standort verknüpft.",
     "branch_sheet_empty_action": "Jetzt mit Standort registrieren",
     "login_empty_error": "Bitte geben Sie Ihre Zugangsdaten ein",
+    "serverURL_empty_error": "Bitte geben Sie die Server-URL ein",
     "reset_password_empty_error": "Keine E-Mail festgelegt",
     "reset_password_email_not_valid_error": "Email ist ungültig",
     "close": "Schließen",
@@ -160,5 +161,10 @@
     "subject": "Betreff",
     "message": "Nachricht",
     "send": "Schicken",
-    "write_us_message": "Schreiben Sie uns eine Nachricht"
+    "write_us_message": "Schreiben Sie uns eine Nachricht",
+    "server_url": "Server-URL",
+    "name": "Name",
+    "add_server": "Add Server",
+    "login_at": "Einloggen bei",
+    "servers": "Server"
 }

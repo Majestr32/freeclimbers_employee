@@ -6,15 +6,15 @@ part of 'member_registration_code.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MemberRegistrationCode _$$_MemberRegistrationCodeFromJson(
+_$MemberRegistrationCodeImpl _$$MemberRegistrationCodeImplFromJson(
         Map<String, dynamic> json) =>
-    _$_MemberRegistrationCode(
+    _$MemberRegistrationCodeImpl(
       code: json['code'] as String,
       qrcode: json['qrcode'] as String,
     );
 
-Map<String, dynamic> _$$_MemberRegistrationCodeToJson(
-        _$_MemberRegistrationCode instance) =>
+Map<String, dynamic> _$$MemberRegistrationCodeImplToJson(
+        _$MemberRegistrationCodeImpl instance) =>
     <String, dynamic>{
       'code': instance.code,
       'qrcode': instance.qrcode,

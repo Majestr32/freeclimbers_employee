@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:freeclimbers_employee/data/shared_prefs/app_shared_prefs_contract.dart';
+import 'package:climbers/data/shared_prefs/app_shared_prefs_contract.dart';
 import 'package:flutter/scheduler.dart';
 
 class ThemeRepository{

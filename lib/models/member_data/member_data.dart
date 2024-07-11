@@ -1,5 +1,5 @@
-import 'package:freeclimbers_employee/consts/enums.dart';
-import 'package:freeclimbers_employee/models/required_fields/required_fields.dart';
+import 'package:climbers/consts/enums.dart';
+import 'package:climbers/models/required_fields/required_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

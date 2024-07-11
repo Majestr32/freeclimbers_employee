@@ -6,14 +6,14 @@ part of 'access_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AccessToken _$$_AccessTokenFromJson(Map<String, dynamic> json) =>
-    _$_AccessToken(
+_$AccessTokenImpl _$$AccessTokenImplFromJson(Map<String, dynamic> json) =>
+    _$AccessTokenImpl(
       accessToken: json['access_token'] as String,
-      expiresIn: json['expires_in'] as int,
+      expiresIn: (json['expires_in'] as num).toInt(),
       refreshToken: json['refresh_token'] as String,
     );
 
-Map<String, dynamic> _$$_AccessTokenToJson(_$_AccessToken instance) =>
+Map<String, dynamic> _$$AccessTokenImplToJson(_$AccessTokenImpl instance) =>
     <String, dynamic>{
       'access_token': instance.accessToken,
       'expires_in': instance.expiresIn,

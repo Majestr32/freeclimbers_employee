@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:freeclimbers_employee/data/shared_prefs/app_shared_prefs_contract.dart';
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/utils/lock_timeout.dart';
+import 'package:climbers/data/shared_prefs/app_shared_prefs_contract.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/models/server/server.dart';
+import 'package:climbers/utils/lock_timeout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppSharedPrefs implements IAppSharedPrefs{
+class AppSharedPrefs implements IAppSharedPrefs {
   final SharedPreferences _sharedPreferences;
 
   final String jwtAccessToken = 'access_token';
@@ -25,13 +26,16 @@ class AppSharedPrefs implements IAppSharedPrefs{
   final String isHomeTutorialComplete = 'is_home_tutorial_complete';
   final String isNightMode = 'is_night_mode';
 
+  final String servers = 'servers';
+  final String selectedServerId = 'server_id';
+
   @override
   AccessToken? getAccessToken() {
     final accessToken = _sharedPreferences.getString(jwtAccessToken);
     final expiresIn = _sharedPreferences.getString(jwtExpiresIn);
     final refreshToken = _sharedPreferences.getString(jwtRefreshToken);
 
-    if([accessToken,expiresIn,refreshToken].any((e) => e == null)){
+    if ([accessToken, expiresIn, refreshToken].any((e) => e == null)) {
       return null;
     }
 
@@ -42,21 +46,25 @@ class AppSharedPrefs implements IAppSharedPrefs{
   }
 
   @override
-  Future<void> putAccessToken(AccessToken token) async{
-    await _sharedPreferences.setString(jwtAccessToken, _encode(token.accessToken));
-    await _sharedPreferences.setString(jwtExpiresIn, _encode(token.expiresIn.toString()));
-    await _sharedPreferences.setString(jwtRefreshToken, _encode(token.refreshToken));
+  Future<void> putAccessToken(AccessToken token) async {
+    await _sharedPreferences.setString(
+        jwtAccessToken, _encode(token.accessToken));
+    await _sharedPreferences.setString(
+        jwtExpiresIn, _encode(token.expiresIn.toString()));
+    await _sharedPreferences.setString(
+        jwtRefreshToken, _encode(token.refreshToken));
   }
 
   @override
-  Future<void> clearAccessToken() async{
+  Future<void> clearAccessToken() async {
     await _sharedPreferences.remove(jwtAccessToken);
     await _sharedPreferences.remove(jwtExpiresIn);
     await _sharedPreferences.remove(jwtRefreshToken);
   }
 
   @override
-  bool getLoginWithFaceId() => _sharedPreferences.getBool(loginWithFaceId) ?? false;
+  bool getLoginWithFaceId() =>
+      _sharedPreferences.getBool(loginWithFaceId) ?? false;
 
   @override
   bool getPushMessages() => _sharedPreferences.getBool(pushMessages) ?? false;
@@ -68,18 +76,23 @@ class AppSharedPrefs implements IAppSharedPrefs{
   String? getLanguage() => _sharedPreferences.getString(language);
 
   @override
-  void setLanguage(String locale) => _sharedPreferences.setString(language, locale);
+  void setLanguage(String locale) =>
+      _sharedPreferences.setString(language, locale);
 
   @override
-  void setLoginWithFaceId(bool value) => _sharedPreferences.setBool(loginWithFaceId, value);
+  void setLoginWithFaceId(bool value) =>
+      _sharedPreferences.setBool(loginWithFaceId, value);
 
   @override
-  void setPushMessages(bool value) => _sharedPreferences.setBool(pushMessages, value);
+  void setPushMessages(bool value) =>
+      _sharedPreferences.setBool(pushMessages, value);
 
   @override
-  void setRequirePin(bool value) => _sharedPreferences.setBool(requirePin, value);
+  void setRequirePin(bool value) =>
+      _sharedPreferences.setBool(requirePin, value);
 
   String _encode(String value) => utf8.fuse(base64).encode(value);
+
   String _decode(String value) => utf8.fuse(base64).decode(value);
 
   const AppSharedPrefs({
@@ -89,7 +102,7 @@ class AppSharedPrefs implements IAppSharedPrefs{
   @override
   Map<String, dynamic> getBranchesOrders() {
     String jsonData = _sharedPreferences.getString(branchesOrders) ?? '';
-    if(jsonData.isEmpty){
+    if (jsonData.isEmpty) {
       return {};
     }
     log(jsonData);
@@ -102,7 +115,7 @@ class AppSharedPrefs implements IAppSharedPrefs{
   }
 
   @override
-  Future<void> setBranchOrder(Map<String,int> branchOrders) {
+  Future<void> setBranchOrder(Map<String, int> branchOrders) {
     final encodedOrder = jsonEncode(branchOrders);
     return _sharedPreferences.setString(branchesOrders, encodedOrder);
   }
@@ -114,7 +127,8 @@ class AppSharedPrefs implements IAppSharedPrefs{
 
   @override
   LockTimeout getLockTimeout() {
-    return LockTimeout.findByDuration(_sharedPreferences.getInt(lockTimeout) ?? 30);
+    return LockTimeout.findByDuration(
+        _sharedPreferences.getInt(lockTimeout) ?? 30);
   }
 
   @override
@@ -124,9 +138,11 @@ class AppSharedPrefs implements IAppSharedPrefs{
 
   @override
   bool isLockedWithFaceId() {
-    final milliseconds = _sharedPreferences.getInt(isLocked) ?? DateTime.now().millisecondsSinceEpoch;
+    final milliseconds = _sharedPreferences.getInt(isLocked) ??
+        DateTime.now().millisecondsSinceEpoch;
     final durationInMilliseconds = getLockTimeout().duration.inMilliseconds;
-    final date = DateTime.fromMillisecondsSinceEpoch(milliseconds).add(Duration(milliseconds: durationInMilliseconds));
+    final date = DateTime.fromMillisecondsSinceEpoch(milliseconds)
+        .add(Duration(milliseconds: durationInMilliseconds));
     return DateTime.now().compareTo(date) > 0;
   }
 
@@ -142,12 +158,12 @@ class AppSharedPrefs implements IAppSharedPrefs{
   }
 
   @override
-  Future<void> endMenuTutorial(){
+  Future<void> endMenuTutorial() {
     return _sharedPreferences.setBool(isMenuTutorialComplete, true);
   }
 
   @override
-  bool isHomeTutorialCompleted(){
+  bool isHomeTutorialCompleted() {
     return _sharedPreferences.getBool(isHomeTutorialComplete) ?? false;
   }
 
@@ -166,4 +182,42 @@ class AppSharedPrefs implements IAppSharedPrefs{
     return _sharedPreferences.setBool(isNightMode, isDarkMode);
   }
 
+  @override
+  Future<void> addServer(String serverURL, [String? name]){
+    final serversList = getServers();
+    final serversCount = serversList.length;
+    final newServerId = (serversCount + 1).toString();
+    final newServer = Server(id: newServerId, serverURL: serverURL, name: name);
+    final customServers = serversList.skip(_startServers.length);
+    final updatedCustomServers = [...customServers, newServer];
+    final updatedCustomServersJson = jsonEncode(
+        updatedCustomServers.map((e) => e.toJson()).toList());
+    return _sharedPreferences.setString(servers, updatedCustomServersJson);
+  }
+
+  @override
+  List<Server> getServers() {
+    final serversList = _startServers;
+    final jsonServers = _sharedPreferences.getString(servers);
+    if (jsonServers != null) {
+      serversList.addAll(
+          (jsonDecode(jsonServers) as List).map((e) => Server.fromJson(e)));
+    }
+    return serversList;
+  }
+
+  @override
+  String getSelectedServerId() {
+    return _sharedPreferences.getString(selectedServerId) ?? _startServers.first.id;
+  }
+
+  @override
+  Future<void> setSelectedServerId(String serverId){
+    return _sharedPreferences.setString(selectedServerId, serverId);
+  }
 }
+
+List<Server> _startServers = [
+  const Server(id: "1", serverURL: "webclimber.de"),
+  const Server(id: "2", serverURL: "webclimber.en"),
+];

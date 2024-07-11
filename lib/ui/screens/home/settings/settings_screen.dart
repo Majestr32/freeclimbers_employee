@@ -1,13 +1,14 @@
 
-import 'package:freeclimbers_employee/blocs/locale_cubit/locale_cubit.dart';
-import 'package:freeclimbers_employee/blocs/security_bloc/security_bloc.dart';
-import 'package:freeclimbers_employee/blocs/theme_bloc/theme_bloc.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
-import 'package:freeclimbers_employee/router.dart';
-import 'package:freeclimbers_employee/ui/popups/face_id_success/face_id_success.dart';
-import 'package:freeclimbers_employee/ui/widgets/connectivity_badge/connectivity_badge.dart';
-import 'package:freeclimbers_employee/ui/widgets/nav/app_navbar.dart';
-import 'package:freeclimbers_employee/utils/lock_timeout.dart';
+import 'package:climbers/blocs/locale_cubit/locale_cubit.dart';
+import 'package:climbers/blocs/security_bloc/security_bloc.dart';
+import 'package:climbers/blocs/theme_bloc/theme_bloc.dart';
+import 'package:climbers/extensions/colors.dart';
+import 'package:climbers/router.dart';
+import 'package:climbers/ui/popups/face_id_success/face_id_success.dart';
+import 'package:climbers/ui/widgets/connectivity_badge/connectivity_badge.dart';
+import 'package:climbers/ui/widgets/nav/app_navbar.dart';
+import 'package:climbers/utils/action_sheet.dart';
+import 'package:climbers/utils/lock_timeout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -17,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../../consts/k_colors.dart';
+import '../../../widgets/app_drawer/app_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -36,47 +38,76 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: context.colors!.basePrimaryBack,
-        key: _scaffoldKey,
-        appBar: AppNavbar(
-          title: AppLocalizations.of(context)!.settings,
-          onPrefixWidgetTap: () => context.pop(),
-          prefixWidget: Icon(FontAwesomeIcons.chevronLeft, color: KColors.white, size: 24,),
-        ),
-        body: ConnectivityBadge(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  //_section(AppLocalizations.of(context)!.profile),
-                  //_arrowTile(AppLocalizations.of(context)!.change_profile, () => context.push(RouteNames.editProfile), FontAwesomeIcons.solidUser),
-                  //_arrowTile(AppLocalizations.of(context)!.change_password, () => context.push(RouteNames.changePassword), FontAwesomeIcons.lock),
-                  //_arrowTile(AppLocalizations.of(context)!.change_photo, () => showPhotoActionSheet(context), FontAwesomeIcons.solidImage, true),
-                  SizedBox(height: 12,),
-                  _section(AppLocalizations.of(context)!.misc),
-                  _toggleTile(AppLocalizations.of(context)!.push_messages, context.watch<SecurityBloc>().state.pushMessages, () => context.read<SecurityBloc>().add(SecurityEvent.togglePushMessages()), FontAwesomeIcons.solidPaperPlane),
-                  _toggleTile(AppLocalizations.of(context)!.dark_mode, context.watch<ThemeBloc>().state.isNightTheme, (){
-                    context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
-                  }, FontAwesomeIcons.solidMoon),
-                  _dropdownTile(AppLocalizations.of(context)!.language, context.watch<LocaleCubit>().state == 'en' ? AppLocalizations.of(context)!.english : AppLocalizations.of(context)!.german, (){}, FontAwesomeIcons.solidFlag, true),
-                  SizedBox(height: 12,),
-                  _section(AppLocalizations.of(context)!.security),
-                  _toggleTile("${AppLocalizations.of(context)!.require} ${context.watch<SecurityBloc>().state.lockingMechanism(context)}", context.watch<SecurityBloc>().state.loginWithFaceId, () => context.read<SecurityBloc>().add(SecurityEvent.toggleLoginWithFaceId()), FontAwesomeIcons.userLock),
-                  _dropdownTile(AppLocalizations.of(context)!.automatic_lock, context.read<SecurityBloc>().state.timeout!.text(context.read<LocaleCubit>().state), () async{
-                    final selectedLock = await _pickLock(context.read<SecurityBloc>().state.timeout!);
-                    if(!mounted){
+    return BlocListener<SecurityBloc, SecurityState>(
+  listener: (context, state) {
+    state.maybeMap(
+      initialized: (state){
+        final pushMessagesEnabled = !state.pushMessages;
+        if(pushMessagesEnabled){
+          OneSignal.User.pushSubscription.optIn();
+        }else{
+          OneSignal.User.pushSubscription.optOut();
+        }
+      },
+        enabledBiometrics: (_){
+          showFaceIdSuccessPopup(context);
+        },
+        orElse: (){});
+  },
+  child: Scaffold(
+      backgroundColor: context.colors!.basePrimaryBack,
+      key: _scaffoldKey,
+      drawer: AppDrawer(
+        scaffoldKey: _scaffoldKey,
+        currentPage: DrawerPages.settings,
+      ),
+      appBar: AppNavbar(
+        title: AppLocalizations.of(context)!.settings,
+        onPrefixWidgetTap: () => context.pop(),
+        prefixWidget: Icon(FontAwesomeIcons.chevronLeft, color: KColors.white, size: 24,),
+      ),
+      body: ConnectivityBadge(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                _section(AppLocalizations.of(context)!.profile),
+                _arrowTile(AppLocalizations.of(context)!.change_profile, () => context.push(RouteNames.editProfile), FontAwesomeIcons.solidUser),
+                _arrowTile(AppLocalizations.of(context)!.change_password, () => context.push(RouteNames.changePassword), FontAwesomeIcons.lock),
+                _arrowTile(AppLocalizations.of(context)!.change_photo, () => showPhotoActionSheet(context), FontAwesomeIcons.solidImage, true),
+                SizedBox(height: 12,),
+                _section(AppLocalizations.of(context)!.misc),
+                _toggleTile(AppLocalizations.of(context)!.push_messages, context.watch<SecurityBloc>().state.pushMessages, () => context.read<SecurityBloc>().add(SecurityEvent.togglePushMessages()), FontAwesomeIcons.solidPaperPlane),
+                _toggleTile(AppLocalizations.of(context)!.dark_mode, context.watch<ThemeBloc>().state.isNightTheme, (){
+                  context.read<ThemeBloc>().add(ThemeEvent.toggleTheme());
+                }, FontAwesomeIcons.solidMoon),
+                _dropdownTile(AppLocalizations.of(context)!.language, context.watch<LocaleCubit>().state == 'en' ? AppLocalizations.of(context)!.english : AppLocalizations.of(context)!.german, (){
+                  showLocaleActionSheet(context).then((locale){
+                    if(locale == null){
                       return;
+                    }else{
+                      context.read<LocaleCubit>().changeLanguage(locale.languageCode);
                     }
-                    context.read<SecurityBloc>().add(SecurityEvent.setTimeout(timeout: selectedLock));
-                  }, FontAwesomeIcons.lock, true)
-                ],
-              ),
+                  });
+                }, FontAwesomeIcons.solidFlag, true),
+                SizedBox(height: 12,),
+                _section(AppLocalizations.of(context)!.security),
+                _toggleTile(AppLocalizations.of(context)!.require + " " + context.watch<SecurityBloc>().state.lockingMechanism(context), context.watch<SecurityBloc>().state.loginWithFaceId, () => context.read<SecurityBloc>().add(SecurityEvent.toggleLoginWithFaceId()), FontAwesomeIcons.userLock),
+                _dropdownTile(AppLocalizations.of(context)!.automatic_lock, context.read<SecurityBloc>().state.timeout!.text(context.read<LocaleCubit>().state), () async{
+                  final selectedLock = await _pickLock(context.read<SecurityBloc>().state.timeout!);
+                  if(!mounted){
+                    return;
+                  }
+                  context.read<SecurityBloc>().add(SecurityEvent.setTimeout(timeout: selectedLock));
+                }, FontAwesomeIcons.lock, true)
+              ],
             ),
           ),
         ),
-      );
+      ),
+    ),
+);
   }
 
   Future<LockTimeout> _pickLock(LockTimeout defaultValue) async{

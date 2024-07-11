@@ -1,7 +1,7 @@
-import 'package:freeclimbers_employee/data/shared_prefs/app_shared_prefs_contract.dart';
-import 'package:freeclimbers_employee/models/app_documents/app_documents.dart';
-import 'package:freeclimbers_employee/services/app/app_service_contract.dart';
-import 'package:freeclimbers_employee/services/branches/branches_service_contract.dart';
+import 'package:climbers/data/shared_prefs/app_shared_prefs_contract.dart';
+import 'package:climbers/models/app_documents/app_documents.dart';
+import 'package:climbers/services/app/app_service_contract.dart';
+import 'package:climbers/services/branches/branches_service_contract.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../models/app_settings/app_settings.dart';

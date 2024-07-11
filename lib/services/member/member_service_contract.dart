@@ -1,8 +1,8 @@
 import 'package:universal_io/io.dart';
 import 'dart:typed_data';
 
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/models/member_registration_code/member_registration_code.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/models/member_registration_code/member_registration_code.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../models/member_data/member_data.dart';

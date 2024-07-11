@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:freeclimbers_employee/models/branch_qr_data/branch_qr_data.dart';
-import 'package:freeclimbers_employee/services/qr_code/qr_code_service_contract.dart';
+import 'package:climbers/models/branch_qr_data/branch_qr_data.dart';
+import 'package:climbers/services/qr_code/qr_code_service_contract.dart';
 import 'package:dio/dio.dart';
 
 import '../../custom_error.dart';
@@ -22,8 +22,8 @@ class QrCodeService implements IQrCodeService{
         throw CustomError(code: 400, message: 'Branch not found', localizationCode: 'branch-not-found');
       }
       return BranchQrData.fromJson(response.data["data"]);
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();

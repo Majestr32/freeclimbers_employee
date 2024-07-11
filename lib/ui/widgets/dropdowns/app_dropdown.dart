@@ -1,7 +1,7 @@
 import 'package:universal_io/io.dart';
 
-import 'package:freeclimbers_employee/blocs/theme_bloc/theme_bloc.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
+import 'package:climbers/blocs/theme_bloc/theme_bloc.dart';
+import 'package:climbers/extensions/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

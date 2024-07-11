@@ -1,5 +1,5 @@
 
-import 'package:freeclimbers_employee/utils/dio.dart';
+import 'package:climbers/utils/dio.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:http_interceptor/models/interceptor_contract.dart';
 

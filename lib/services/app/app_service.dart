@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:freeclimbers_employee/custom_error.dart';
-import 'package:freeclimbers_employee/models/app_documents/app_documents.dart';
-import 'package:freeclimbers_employee/models/app_settings/app_settings.dart';
-import 'package:freeclimbers_employee/services/app/app_service_contract.dart';
-import 'package:freeclimbers_employee/utils/dio.dart';
-import 'package:freeclimbers_employee/utils/errors.dart';
+import 'package:climbers/custom_error.dart';
+import 'package:climbers/models/app_documents/app_documents.dart';
+import 'package:climbers/models/app_settings/app_settings.dart';
+import 'package:climbers/services/app/app_service_contract.dart';
+import 'package:climbers/utils/dio.dart';
+import 'package:climbers/utils/errors.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -25,8 +25,8 @@ class AppService implements IAppService{
       }..removeWhere((key, value) => value == null));
       final data = throwCustomErrorOrGetData(response);
       return AppSettings.fromJson(data);
-    }on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    }on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -47,8 +47,8 @@ class AppService implements IAppService{
       final documents = throwCustomErrorOrGetData(termsResponse);
 
       return AppDocuments.fromJson(documents);
-    }on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    }on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -71,8 +71,8 @@ class AppService implements IAppService{
       }
       final data = throwCustomErrorOrGetData(response);
       return data["logo"];
-    }on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    }on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw const CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();

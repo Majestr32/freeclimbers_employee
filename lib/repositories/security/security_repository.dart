@@ -1,6 +1,6 @@
 import 'package:universal_io/io.dart';
 
-import 'package:freeclimbers_employee/utils/lock_timeout.dart';
+import 'package:climbers/utils/lock_timeout.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';

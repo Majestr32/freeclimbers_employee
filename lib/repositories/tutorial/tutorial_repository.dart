@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/data/shared_prefs/app_shared_prefs_contract.dart';
+import 'package:climbers/data/shared_prefs/app_shared_prefs_contract.dart';
 
 class TutorialRepository{
   final IAppSharedPrefs _appSharedPrefs;

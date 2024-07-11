@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:freeclimbers_employee/models/app_settings/app_settings.dart';
-import 'package:freeclimbers_employee/services/app/app_service_contract.dart';
-import 'package:freeclimbers_employee/services/branches/branches_service_contract.dart';
+import 'package:climbers/models/app_settings/app_settings.dart';
+import 'package:climbers/services/app/app_service_contract.dart';
+import 'package:climbers/services/branches/branches_service_contract.dart';
 
 import '../../models/access_token/access_token.dart';
 import '../../models/branch/branch.dart';

@@ -194,6 +194,7 @@
     "branch_sheet_empty_title": "You are not linked to any location yet.",
     "branch_sheet_empty_action": "Register now with location",
     "login_empty_error": "Please fill in your login details",
+    "serverURL_empty_error": "Please fill in Server URL",
     "reset_password_empty_error": "No Email set",
     "reset_password_email_not_valid_error": "Email is not valid",
     "close": "Close",
@@ -202,5 +203,10 @@
     "subject": "Subject",
     "message": "Message",
     "send": "Send",
-    "write_us_message": "Write us a message"
+    "write_us_message": "Write us a message",
+    "server_url": "Server URL",
+    "name": "Name",
+    "add_server": "Add Server",
+    "login_at": "Log in at",
+    "servers": "Servers"
 }

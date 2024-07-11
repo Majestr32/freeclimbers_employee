@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:freeclimbers_employee/models/app_settings/app_settings.dart';
+import 'package:climbers/models/app_settings/app_settings.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 

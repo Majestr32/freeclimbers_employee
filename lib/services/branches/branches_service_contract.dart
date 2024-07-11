@@ -1,5 +1,5 @@
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/models/branch/branch.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/models/branch/branch.dart';
 
 abstract class IBranchService{
   Future<List<Branch>> listBranches({required AccessToken token});

@@ -1,5 +1,7 @@
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/utils/lock_timeout.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/utils/lock_timeout.dart';
+
+import '../../models/server/server.dart';
 
 abstract class IAppSharedPrefs{
   AccessToken? getAccessToken();
@@ -34,4 +36,9 @@ abstract class IAppSharedPrefs{
   void setLoginWithFaceId(bool value);
   void setPushMessages(bool value);
   void setLanguage(String locale);
+
+  String getSelectedServerId();
+  Future<void> setSelectedServerId(String serverId);
+  Future<void> addServer(String serverURL, [String? name]);
+  List<Server> getServers();
 }

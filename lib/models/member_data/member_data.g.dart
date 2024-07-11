@@ -6,8 +6,8 @@ part of 'member_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MemberData _$$_MemberDataFromJson(Map<String, dynamic> json) =>
-    _$_MemberData(
+_$MemberDataImpl _$$MemberDataImplFromJson(Map<String, dynamic> json) =>
+    _$MemberDataImpl(
       id: json['id'] as String?,
       no: json['no'] as String?,
       company: json['company'] as String?,
@@ -29,7 +29,7 @@ _$_MemberData _$$_MemberDataFromJson(Map<String, dynamic> json) =>
       regCode: json['reg_code'] as String?,
     );
 
-Map<String, dynamic> _$$_MemberDataToJson(_$_MemberData instance) =>
+Map<String, dynamic> _$$MemberDataImplToJson(_$MemberDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'no': instance.no,

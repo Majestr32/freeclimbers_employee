@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/blocs/theme_bloc/theme_bloc.dart';
+import 'package:climbers/blocs/theme_bloc/theme_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
-import 'package:freeclimbers_employee/consts/k_colors.dart';
-import 'package:freeclimbers_employee/oss_licenses.dart';
+import 'package:climbers/consts/k_colors.dart';
+import 'package:climbers/oss_licenses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 

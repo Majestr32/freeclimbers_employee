@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:climbers/blocs/member_cubit/member_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:local_auth/local_auth.dart';
@@ -19,11 +20,11 @@ typedef AuthenticateFunction = Future<bool> Function();
 
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   final SecurityRepository _securityRepository;
-  final OneSignal _oneSignal;
+  final MemberCubit _memberCubit;
   SecurityBloc({required SecurityRepository securityRepository,
-    required OneSignal oneSignal})
+    required MemberCubit memberCubit,})
       : _securityRepository = securityRepository,
-        _oneSignal = oneSignal,
+        _memberCubit = memberCubit,
         super(const SecurityState.initial()) {
     on<SecurityEvent>((event,emit) async{
       await event.map(fetchAvailableSecurities: (e) => _fetchAvailableSecurities(e,emit),
@@ -67,19 +68,38 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     final lockTimeout = _securityRepository.getLockTimeout();
     final isLocked = event.firstLaunch ? true : _securityRepository.isLockedWithFaceId();
     final biometricType = await _securityRepository.getDefaultBiometricType();
+    if(pushMessages){
+      _maybeUpdateExternalUserId();
+    }
     emit(SecurityState.initialized(loginWithFaceId: loginWithFaceId, timeout: lockTimeout, pushMessages: pushMessages, isLocked: isLocked, biometricType: biometricType));
+  }
+
+  Future<void> _maybeUpdateExternalUserId() async{
+    if(_memberCubit.state.memberData == null){
+      return;
+    }
+    await OneSignal.login(_memberCubit.state.memberData!.id!);
   }
 
   Future _togglePushMessages(_TogglePushMessagesEvent event, Emitter<SecurityState> emit) async{
     final toggledOn = !state.pushMessages;
-    final accepted = await _oneSignal.promptUserForPushNotificationPermission();
+    final accepted = await OneSignal.Notifications.requestPermission(true);
     if(toggledOn && !accepted){
       return;
     }
-    _oneSignal.setNotificationWillShowInForegroundHandler((event) {
-      event.complete(accepted ? event.notification : null);
+    OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+      if(accepted){
+        event.notification.display();
+      }
     });
-    await _oneSignal.disablePush(!accepted);
+    if(accepted){
+      await OneSignal.User.pushSubscription.optIn();
+    }else{
+      await OneSignal.User.pushSubscription.optOut();
+    }
+    if(toggledOn){
+      _maybeUpdateExternalUserId();
+    }
     _securityRepository.setPushMessages(toggledOn);
     emit(state.togglePushMessages(toggledOn));
   }

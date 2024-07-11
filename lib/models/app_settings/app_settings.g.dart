@@ -6,8 +6,8 @@ part of 'app_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AppSettings _$$_AppSettingsFromJson(Map<String, dynamic> json) =>
-    _$_AppSettings(
+_$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
+    _$AppSettingsImpl(
       name1: json['name1'] as String,
       registerText: json['register_text'] as String?,
       required:
@@ -15,7 +15,7 @@ _$_AppSettings _$$_AppSettingsFromJson(Map<String, dynamic> json) =>
       colors: ColorSet.fromJson(json['colors'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_AppSettingsToJson(_$_AppSettings instance) =>
+Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
     <String, dynamic>{
       'name1': instance.name1,
       'register_text': instance.registerText,

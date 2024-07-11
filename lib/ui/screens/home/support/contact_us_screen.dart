@@ -1,11 +1,12 @@
-import 'package:freeclimbers_employee/blocs/contact_us_bloc/contact_us_bloc.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
-import 'package:freeclimbers_employee/repositories/contact_us/contact_us_repository.dart';
-import 'package:freeclimbers_employee/services/contact_us/contact_us_service_impl.dart';
-import 'package:freeclimbers_employee/ui/widgets/buttons/app_elevated_button.dart';
-import 'package:freeclimbers_employee/ui/widgets/nav/app_navbar.dart';
-import 'package:freeclimbers_employee/ui/widgets/text_fields/app_plain_text_field.dart';
-import 'package:freeclimbers_employee/utils/toasts.dart';
+import 'package:climbers/blocs/contact_us_bloc/contact_us_bloc.dart';
+import 'package:climbers/blocs/member_cubit/member_cubit.dart';
+import 'package:climbers/extensions/colors.dart';
+import 'package:climbers/repositories/contact_us/contact_us_repository.dart';
+import 'package:climbers/services/contact_us/contact_us_service_impl.dart';
+import 'package:climbers/ui/widgets/buttons/app_elevated_button.dart';
+import 'package:climbers/ui/widgets/nav/app_navbar.dart';
+import 'package:climbers/ui/widgets/text_fields/app_plain_text_field.dart';
+import 'package:climbers/utils/toasts.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +86,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     final subject = _subjectController.text;
                     final message = _messageController.text;
                     if(subject.isNotEmpty && message.isNotEmpty){
-                      //context.loaderOverlay.show();
+                      context.loaderOverlay.show();
+                      contactUsBloc.add(ContactUsEvent.sendEmail(email: context.read<MemberCubit>().state.memberData!.email!, subject: subject, message: message));
                     }else{
                       if(subject.isEmpty){
                         _errorTags.add("subject");

@@ -1,8 +1,8 @@
-import 'package:freeclimbers_employee/blocs/app_cubit/app_cubit.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
-import 'package:freeclimbers_employee/router.dart';
-import 'package:freeclimbers_employee/ui/widgets/connectivity_badge/connectivity_badge.dart';
-import 'package:freeclimbers_employee/ui/widgets/nav/app_navbar.dart';
+import 'package:climbers/blocs/app_cubit/app_cubit.dart';
+import 'package:climbers/extensions/colors.dart';
+import 'package:climbers/router.dart';
+import 'package:climbers/ui/widgets/connectivity_badge/connectivity_badge.dart';
+import 'package:climbers/ui/widgets/nav/app_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../blocs/locale_cubit/locale_cubit.dart';
 import '../../../../consts/k_colors.dart';
 import '../../../../consts/web_documents_enums.dart';
+import '../../../widgets/app_drawer/app_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportScreen extends StatefulWidget {
@@ -28,6 +29,10 @@ class _SupportScreenState extends State<SupportScreen> {
     return Scaffold(
       key: _scaffoldKey,
         backgroundColor: context.colors!.basePrimaryBack,
+        drawer: AppDrawer(
+          scaffoldKey: _scaffoldKey,
+          currentPage: DrawerPages.help,
+        ),
         appBar: AppNavbar(
           title: AppLocalizations.of(context)!.help,
           onPrefixWidgetTap: (){
@@ -81,7 +86,7 @@ class _SupportScreenState extends State<SupportScreen> {
                     child: Column(
                       children: [
                         _helpTile('Contact us', () {
-                          //context.push(RouteNames.contactUs);
+                          context.push(RouteNames.contactUs);
                         }, FontAwesomeIcons.solidEnvelope),
                         _helpTile('Help center', () { }, FontAwesomeIcons.question),
                         _helpTile('Report a bug', () { }, FontAwesomeIcons.bug),

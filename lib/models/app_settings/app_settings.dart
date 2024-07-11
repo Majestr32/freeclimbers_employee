@@ -1,6 +1,6 @@
-import 'package:freeclimbers_employee/models/color_set/color_set.dart';
-import 'package:freeclimbers_employee/models/required_fields/required_fields.dart';
-import 'package:freeclimbers_employee/models/theme_colors/theme_colors.dart';
+import 'package:climbers/models/color_set/color_set.dart';
+import 'package:climbers/models/required_fields/required_fields.dart';
+import 'package:climbers/models/theme_colors/theme_colors.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_settings.freezed.dart';

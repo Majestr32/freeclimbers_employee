@@ -1,8 +1,9 @@
 
-import 'package:freeclimbers_employee/consts/k_colors.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
-import 'package:freeclimbers_employee/ui/widgets/auth/bg.dart';
-import 'package:freeclimbers_employee/ui/widgets/connectivity_badge/connectivity_badge.dart';
+import 'package:climbers/blocs/member_cubit/member_cubit.dart';
+import 'package:climbers/consts/k_colors.dart';
+import 'package:climbers/extensions/colors.dart';
+import 'package:climbers/ui/widgets/auth/bg.dart';
+import 'package:climbers/ui/widgets/connectivity_badge/connectivity_badge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,7 @@ class _AccountCreatedState extends State<AccountCreated> {
                     inverseColors: true,
                     title: AppLocalizations.of(context)!.next,
                     onPressed: (){
-
+                      context.read<MemberCubit>().goBackToSignIn();
                     },
                   ),
                 ),

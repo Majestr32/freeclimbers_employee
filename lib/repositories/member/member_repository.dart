@@ -1,9 +1,9 @@
 import 'package:universal_io/io.dart';
 import 'dart:typed_data';
 
-import 'package:freeclimbers_employee/data/shared_prefs/app_shared_prefs_contract.dart';
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/services/member/member_service_contract.dart';
+import 'package:climbers/data/shared_prefs/app_shared_prefs_contract.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/services/member/member_service_contract.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../models/member_data/member_data.dart';

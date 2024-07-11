@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/extensions/colors.dart';
+import 'package:climbers/extensions/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,14 +9,15 @@ class AppTextButton extends StatelessWidget {
   final String title;
   final bool isTitleWhite;
   final VoidCallback onPressed;
-  const AppTextButton({Key? key, required this.title, required this.onPressed, this.isTitleWhite = true}) : super(key: key);
+  final TextStyle? style;
+  const AppTextButton({Key? key, required this.title, required this.onPressed, this.isTitleWhite = true, this.style}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
         minSize: 16,
         padding: EdgeInsets.zero,
-        child: Text(title, style: TextStyle(
+        child: Text(title, style: style ?? TextStyle(
           fontSize: 16,
         fontFamily: 'OpenSans',
         color: isTitleWhite ? context.colors!.mainPrimaryText : context.colors?.fieldNormalText,

@@ -6,8 +6,8 @@ part of 'theme_colors.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ThemeColors _$$_ThemeColorsFromJson(Map<String, dynamic> json) =>
-    _$_ThemeColors(
+_$ThemeColorsImpl _$$ThemeColorsImplFromJson(Map<String, dynamic> json) =>
+    _$ThemeColorsImpl(
       statusBarText: _toBrightness(json['status_bar_text'] as String),
       basePrimaryBack: _fromHexOrRgba(json['base_primary_back'] as String),
       basePrimaryText: _fromHexOrRgba(json['base_primary_text'] as String),
@@ -84,7 +84,7 @@ _$_ThemeColors _$$_ThemeColorsFromJson(Map<String, dynamic> json) =>
           _fromHexOrRgba(json['button_secondary_active_frame'] as String),
     );
 
-Map<String, dynamic> _$$_ThemeColorsToJson(_$_ThemeColors instance) =>
+Map<String, dynamic> _$$ThemeColorsImplToJson(_$ThemeColorsImpl instance) =>
     <String, dynamic>{
       'status_bar_text': _fromBrightness(instance.statusBarText),
       'base_primary_back': _toHex(instance.basePrimaryBack),

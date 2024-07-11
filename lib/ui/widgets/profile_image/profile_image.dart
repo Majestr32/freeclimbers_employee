@@ -1,8 +1,8 @@
 
 import 'dart:typed_data';
 
-import 'package:freeclimbers_employee/blocs/app_cubit/app_cubit.dart';
-import 'package:freeclimbers_employee/extensions/colors.dart';
+import 'package:climbers/blocs/app_cubit/app_cubit.dart';
+import 'package:climbers/extensions/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

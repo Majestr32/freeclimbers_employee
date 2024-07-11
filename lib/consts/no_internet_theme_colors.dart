@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/models/theme_colors/theme_colors.dart';
+import 'package:climbers/models/theme_colors/theme_colors.dart';
 import 'package:flutter/material.dart';
 
 const ThemeColors noInternetThemeColorsBlack = ThemeColors(

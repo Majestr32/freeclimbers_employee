@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:freeclimbers_employee/models/access_token/access_token.dart';
-import 'package:freeclimbers_employee/services/branches/branches_service_contract.dart';
+import 'package:climbers/models/access_token/access_token.dart';
+import 'package:climbers/services/branches/branches_service_contract.dart';
 import 'package:dio/dio.dart';
 
 import '../../custom_error.dart';
@@ -35,8 +35,8 @@ class BranchesService implements IBranchService{
       if(data['validate'] == false){
         throw CustomError(code: 200, targets: (data["errors"] as Map<String,dynamic>).keys.toList(), message: ((data["errors"] as Map<String,dynamic>).values.first as List).first);
       }
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -51,8 +51,8 @@ class BranchesService implements IBranchService{
       final response = await _authenticatedDio(token).get("$apiHost/member/getBranchList");
       final data = throwCustomErrorOrGetData(response);
       return (data as List).map((e) => Branch.fromJson(e)).toList();
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -67,8 +67,8 @@ class BranchesService implements IBranchService{
       await _authenticatedDio(token).post("$apiHost/member/deleteBranch", data: {
         'id': branchId
       });
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();
@@ -86,8 +86,8 @@ class BranchesService implements IBranchService{
       });
       log(response.data.toString());
       return response.data["data"]["logo"];
-    } on DioError catch(e){
-      if(e.message.contains("SocketException")){
+    } on DioException catch(e){
+      if(e.message?.contains("SocketException") ?? false){
         throw CustomError(code: 200, message: 'Network error', localizationCode: 'socket-exception');
       }else if(e.error is TimeoutException){
         throwTimeoutCustomError();

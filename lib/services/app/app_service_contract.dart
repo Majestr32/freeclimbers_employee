@@ -1,4 +1,4 @@
-import 'package:freeclimbers_employee/models/app_documents/app_documents.dart';
+import 'package:climbers/models/app_documents/app_documents.dart';
 
 import '../../models/app_settings/app_settings.dart';
 

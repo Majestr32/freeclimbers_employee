@@ -6,8 +6,8 @@ part of 'branch_details.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BranchDetails _$$_BranchDetailsFromJson(Map<String, dynamic> json) =>
-    _$_BranchDetails(
+_$BranchDetailsImpl _$$BranchDetailsImplFromJson(Map<String, dynamic> json) =>
+    _$BranchDetailsImpl(
       id: json['id'] as String,
       no: json['no'] as String,
       company: json['company'] as String,
@@ -20,7 +20,7 @@ _$_BranchDetails _$$_BranchDetailsFromJson(Map<String, dynamic> json) =>
       branchImage: _encodeLogo(json['logo'] as String),
     );
 
-Map<String, dynamic> _$$_BranchDetailsToJson(_$_BranchDetails instance) =>
+Map<String, dynamic> _$$BranchDetailsImplToJson(_$BranchDetailsImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'no': instance.no,
